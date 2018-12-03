@@ -57,7 +57,7 @@ main(int argc, char** argv)
      */
     sockaddrCont.sin_family = AF_INET;
     sockaddrCont.sin_port = htons( atoi( argv[1] ));
-    sockaddrCont.sin_addr = INADDR_ANY;
+    sockaddrCont.sin_addr.s_addr = INADDR_ANY;
     bzero(sockaddrCont.sin_zero, 8);
     
     /* 
