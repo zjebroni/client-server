@@ -3,12 +3,12 @@
  *
  *  Programme : serveur.c
   *
- *  resume :    recoit une chaine de caracteres du programme client
+ *  resume :    recevoir une chaine de caractères du programme client
  * *
  ***********************************************************
  */
 
-/* include generaux */
+/* includes generaux */
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,7 +19,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 
-/* taille du buffeur de reception */
+/* taille du buffer de reception */
 #define TAIL_BUF 100
 
 
@@ -29,15 +29,10 @@ main(int argc, char** argv)
                     sock_trans,	        /* descipteurs des sockets locales */
                     err;	        /* code d'erreur */
 
-    struct sockaddr_in nom;	      /* adresse de la socket */
-    struct sockaddr_in nom_transmis;  /* adresse de la socket client */
+    struct sockaddr_in sockaddrCont;	      /* adresse de la socket */
+    struct sockaddr_in sockaddTrans;  /* adresse de la socket client */
 
-    char            buffer[TAIL_BUF],	/* buffer de reception */
-                    reponse[2];         /* pour le test de fin */
-
-    socklen_t      size_addr;  	/* taille de l'adresse d'une socket */
-
-
+    char    		buffer[TAIL_BUF];	/* buffer de reception */
 
     /*
      * Verification des arguments
@@ -48,10 +43,8 @@ main(int argc, char** argv)
       exit( 1 );
     }
 
-    // calcul taille structure d'adresse
-    size_addr = sizeof(struct sockaddr_in);
 
-    /* Creation de la socket, protocole TCP */
+    /* Creation du socket, protocole TCP */
     sock_cont = socket( AF_INET, SOCK_STREAM, 0);
     if (sock_cont < 0) {
       
@@ -62,15 +55,14 @@ main(int argc, char** argv)
     /* 
      * Initialisation de l'adresse de la socket 
      */
-    nom.sin_family = AF_INET;
-    nom.sin_port = htons( atoi( argv[1] ));
-    nom.sin_addr.s_addr = INADDR_ANY;
-    bzero(nom.sin_zero, 8);
+    sockaddrCont.sin_family = AF_INET;
+    sockaddrCont.sin_port = htons( atoi( argv[1] ));
+    bzero(sockaddrCont.sin_zero, 8);
     
     /* 
-     * Attribution de l'adresse a la socket
+     * Attribution de l'adresse au socket
      */
-    err = bind( sock_cont, (struct sockaddr *)&nom, size_addr);
+    err = bind( sock_cont, (struct sockaddr *)&sockaddrCont, sizeof(struct sockaddr_in));
     if (err < 0) {
       
       perror("serveur: erreur sur le bind");
@@ -91,9 +83,7 @@ main(int argc, char** argv)
     /*
      * Attente de connexion
      */
-    sock_trans = accept(sock_cont, 
-                        (struct sockaddr *)&nom_transmis, 
-                        &size_addr );
+    sock_trans = accept(sock_cont, (struct sockaddr *)&sockaddTrans, sizeof(struct sockaddr_in) );
     if (sock_trans < 0) {
 	perror("serveur :  erreur sur accept");
 	exit( 5 );
