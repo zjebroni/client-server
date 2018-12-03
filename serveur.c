@@ -84,7 +84,8 @@ main(int argc, char** argv)
     /*
      * Attente de connexion
      */
-    sock_trans = accept(sock_cont, (struct sockaddr *)&sockaddTrans, sizeof(struct sockaddr_in) );
+    socklen_t addrlen = sizeof(struct sockaddr_in);
+    sock_trans = accept(sock_cont, (struct sockaddr *)&sockaddTrans, &addrlen);
     if (sock_trans < 0) {
 	perror("serveur :  erreur sur accept");
 	exit( 5 );
