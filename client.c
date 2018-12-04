@@ -34,7 +34,7 @@ main(int argc, char *argv[])
 
 
   /*
-   * Verification des arguments
+   * Commentaire
    */
   if ( argc != 3 ) {
     printf("usage : client nom_machine no_port\n");
@@ -42,12 +42,12 @@ main(int argc, char *argv[])
   }
 
   /* 
-   * Creation d'un socket, domaine AF_INET, protocole TCP 
+   * Commentaire
    */
   printf("client : Se connecter a %s, %d\n", argv[1], atoi( argv[2]));
   
   /* 
-   * Creation d'une socket, domaine AF_INET, protocole TCP 
+   * Commentaire
    */
   sock = socket( AF_INET, SOCK_STREAM, 0);
   if (sock<0) {
@@ -56,13 +56,15 @@ main(int argc, char *argv[])
     exit(2);
   }
 
-  /* Initialisation de l'adresse du socket */
+  /*
+  * Commentaire
+   */
   sockaddrServeur.sin_family = AF_INET;
   bzero(sockaddrServeur.sin_zero, 8);
   sockaddrServeur.sin_port = htons( atoi( argv[2]) );
 
   /* 
-   * Recherche de l'adresse de la machine
+   * Commentaire
    */
   host = gethostbyname( argv[1] );
   if ( host == NULL ) {
@@ -72,12 +74,12 @@ main(int argc, char *argv[])
   }
 
   /*
-   * Recopie de l'adresse IP
+   * Commentaire
    */
   sockaddrServeur.sin_addr.s_addr = ((struct in_addr *) (host->h_addr_list[0]))->s_addr;
   
   /* 
-   * Connection au serveur 
+   * Commentaire 
    */
   err = connect ( sock, (struct sockaddr *)&sockaddrServeur, sizeof(struct sockaddr_in) );
   if ( err<0 ) {
@@ -86,7 +88,7 @@ main(int argc, char *argv[])
   }
   
   /* 
-   * Saisie de la chaine 
+   * Commentaire
    */
   printf("client : donner une chaine : ");
   scanf("%s", chaine );
@@ -94,7 +96,7 @@ main(int argc, char *argv[])
  
   
   /*
-   * Envoi de la chaine
+   * Commentaire
    */
   err = send( sock, (void*)chaine, (strlen(chaine) + 1), 0);
   if ( err != (strlen(chaine)+1) ) {
@@ -106,7 +108,7 @@ main(int argc, char *argv[])
   printf("Cient : envoi realise\n");
 
   /* 
-   * Fermeture de la connexion et de la socket 
+   * Commentaire
    */
   shutdown(sock, 2);
   close(sock);
