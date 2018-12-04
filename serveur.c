@@ -35,7 +35,7 @@ main(int argc, char** argv)
     char    		buffer[TAIL_BUF];	/* buffer de reception */
 
     /*
-     * Verification des arguments
+     * Commentaire
      */
     if ( argc != 2 ) {
 
@@ -44,7 +44,7 @@ main(int argc, char** argv)
     }
 
 
-    /* Creation du socket, protocole TCP */
+    /* Commentaire */
     sock_cont = socket( AF_INET, SOCK_STREAM, 0);
     if (sock_cont < 0) {
       
@@ -53,7 +53,7 @@ main(int argc, char** argv)
     }
     
     /* 
-     * Initialisation de l'adresse de la socket 
+     * Commentaire 
      */
     sockaddrCont.sin_family = AF_INET;
     sockaddrCont.sin_port = htons( atoi( argv[1] ));
@@ -61,7 +61,7 @@ main(int argc, char** argv)
     bzero(sockaddrCont.sin_zero, 8);
     
     /* 
-     * Attribution de l'adresse au socket
+     * Commentaire
      */
     err = bind( sock_cont, (struct sockaddr *)&sockaddrCont, sizeof(struct sockaddr_in));
     if (err < 0) {
@@ -71,8 +71,7 @@ main(int argc, char** argv)
     }
     
     /* 
-     * Utilisation en socket de controle, puis attente de demandes de 
-     * connexion.
+     * Commentaire
      */
     err = listen( sock_cont, 1);
     if (err < 0) {
@@ -82,7 +81,7 @@ main(int argc, char** argv)
     }
     
     /*
-     * Attente de connexion
+     * Commentaire
      */
     socklen_t addrlen = sizeof(struct sockaddr_in);
     sock_trans = accept(sock_cont, (struct sockaddr *)&sockaddTrans, &addrlen);
@@ -92,7 +91,7 @@ main(int argc, char** argv)
     }
 
     /*
-     * Reception et affichage du message en provenance du client
+     * Commentaire
      */
     err = recv( sock_trans, (void*)buffer, TAIL_BUF, 0);
     if (err < 0) {
@@ -104,7 +103,7 @@ main(int argc, char** argv)
     printf("serveur : voila le message recu: %s\n", buffer);
     
     /* 
-     * arret de la connexion et fermeture
+     * Commentaire
      */
     shutdown(sock_trans, 2);
     close(sock_cont);
